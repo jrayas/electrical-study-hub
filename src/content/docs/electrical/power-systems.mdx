@@ -28,46 +28,35 @@ import PdfViewer from '../../../components/PdfViewer.astro';
   <TabItem label="⚡ Balanced Three-Phase Systems">
     ### Three-Phase Power Relationships
 
-    In a balanced three-phase system with line voltage $V_L$ and line current $I_L$:
+    In a balanced three-phase system with line voltage `V_L` and line current `I_L`:
 
-    **Wye ($\text{Y}$) Connection:**
-    $$
-    V_L = \sqrt{3} V_{ph} \angle 30^\circ, \quad I_L = I_{ph}
-    $$
+    **Wye (Y) Connection:**
+    ```text
+    V_L = sqrt(3) · V_ph ∠ 30°
+    I_L = I_ph
+    ```
 
-    **Delta ($\Delta$) Connection:**
-    $$
-    V_L = V_{ph}, \quad I_L = \sqrt{3} I_{ph} \angle -30^\circ
-    $$
+    **Delta (Δ) Connection:**
+    ```text
+    V_L = V_ph
+    I_L = sqrt(3) · I_ph ∠ -30°
+    ```
 
     **Total Three-Phase Complex Power:**
-    $$
-    S_{3\phi} = \sqrt{3} V_L I_L^* = 3 V_{ph} I_{ph}^* = P_{3\phi} + jQ_{3\phi}
-    $$
-    $$
-    P_{3\phi} = \sqrt{3} V_L I_L \cos(\theta) \quad [\text{W}]
-    $$
+    ```text
+    S_3φ = sqrt(3) · V_L · I_L* = 3 · V_ph · I_ph* = P_3φ + jQ_3φ
+    P_3φ = sqrt(3) · V_L · I_L · cos(θ) [Watts]
+    ```
   </TabItem>
 
   <TabItem label="🌐 Transmission Line Modeling">
-    ### Medium-Length Line ($\Pi$-Model)
+    ### Medium-Length Line (Pi-Model)
 
     The ABCD transmission matrix relates sending-end and receiving-end parameters:
-    $$
-    \begin{bmatrix}
-      \mathbf{V}_S \\
-      \mathbf{I}_S
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-      A & B \\
-      C & D
-    \end{bmatrix}
-    \begin{bmatrix}
-      \mathbf{V}_R \\
-      \mathbf{I}_R
-    \end{bmatrix}
-    $$
-    Where $AD - BC = 1$ for a reciprocal network.
+    ```text
+    [V_S]   [A  B] [V_R]
+    [I_S] = [C  D] [I_R]
+    ```
+    Where `A · D - B · C = 1` for a reciprocal network.
   </TabItem>
 </Tabs>
