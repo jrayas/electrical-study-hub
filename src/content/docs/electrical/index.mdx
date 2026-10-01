@@ -1,0 +1,70 @@
+---
+title: "⚡ Electrical Engineering Hub"
+description: "Foundational textbooks, circuit theory, power systems, and annotated engineering papers."
+template: doc
+---
+
+import { Card, CardGrid, LinkCard, Badge } from '@astrojs/starlight/components';
+
+Welcome to the **Electrical Engineering Study Center**. This domain is dedicated to deep document reading, circuit derivations, power grid analysis, and applied electronics.
+
+---
+
+## 🗺️ Electrical Engineering Curriculum
+
+<CardGrid>
+  <Card title="Circuit Theory & Analysis" icon="puzzle">
+    Kirchhoff's Laws, Thévenin/Norton equivalents, AC steady-state analysis, and frequency response.
+    
+    <br/>
+    <Badge text="Status: Active Study" variant="success" />
+  </Card>
+
+  <Card title="Power Systems & Machines" icon="rocket">
+    Three-phase systems, transformers, synchronous machines, transmission lines, and power flow.
+    
+    <br/>
+    <Badge text="Status: In Progress" variant="tip" />
+  </Card>
+
+  <Card title="Electronics & Semiconductors" icon="laptop">
+    Diodes, BJTs, MOSFETs, operational amplifiers, and integrated circuit topologies.
+    
+    <br/>
+    <Badge text="Status: Queued" variant="note" />
+  </Card>
+
+  <Card title="Signals & Linear Systems" icon="random">
+    Fourier analysis, Laplace transforms, Z-transforms, and continuous-time filter design.
+    
+    <br/>
+    <Badge text="Status: Queued" variant="note" />
+  </Card>
+</CardGrid>
+
+---
+
+## 📖 Active Study Guides & Annotated Documents
+
+Click below to open the interactive PDF reader with embedded Hypothesis annotation:
+
+<CardGrid>
+  <LinkCard
+    title="⚡ Circuit Analysis Fundamentals"
+    description="DC/AC networks, phasor analysis, and transient response with companion equations."
+    href="/electrical/circuit-analysis"
+  />
+
+  <LinkCard
+    title="🔌 Power Systems & Grid Analysis"
+    description="Three-phase power, reactive power compensation, and transmission line models."
+    href="/electrical/power-systems"
+  />
+</CardGrid>
+
+---
+
+## 🛠️ How to Add More Electrical Documents
+1. Save your PDF into `public/study-files/electrical/your-document.pdf`.
+2. Duplicate `src/content/docs/_templates/study-reader.mdx` into `src/content/docs/electrical/`.
+3. Set the PDF path in the `iframe` tag and commit!

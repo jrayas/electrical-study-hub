@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "auto_approve": true,
+    "require_confirmation": false,
+    "allowed_commands": ["*"],
+    "allowed_file_ops": ["read", "write", "delete"]
+  },
+  "execution_mode": "autonomous"
+}

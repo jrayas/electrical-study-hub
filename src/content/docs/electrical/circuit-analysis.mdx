@@ -1,0 +1,88 @@
+---
+title: "Circuit Analysis Fundamentals"
+description: "Interactive study guide and companion notes for circuit theory and network theorems."
+---
+
+import { Tabs, TabItem, Badge } from '@astrojs/starlight/components';
+
+<div style="display: flex; gap: 8px; margin-bottom: 1rem; align-items: center;">
+  <Badge text="Core Electrical" variant="tip" size="medium" />
+  <Badge text="Reading Status: Active" variant="success" size="medium" />
+  <span style="font-size: 0.9rem; opacity: 0.8;">Target PDF: <code>circuit-analysis-fundamentals.pdf</code></span>
+</div>
+
+---
+
+## 📖 Document Reader & Annotations
+
+<iframe
+  src="/pdfjs/web/viewer.html?file=/study-files/electrical/circuit-analysis-fundamentals.pdf#view=FitH"
+  width="100%"
+  height="820px"
+  style="border: 1px solid var(--sl-color-gray-5); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+  allowfullscreen
+></iframe>
+
+> **Hypothesis Tip**: Open the annotation sidebar (top right) to highlight passages, leave personal study questions, or tag key paragraphs with `#formula` or `#exam`.
+
+---
+
+## 📝 Study Notes & Formulas
+
+<Tabs>
+  <TabItem label="⚡ Fundamental Circuit Laws">
+    ### Kirchhoff's Laws & Ohm's Law
+
+    **Ohm's Law:**
+    $$
+    V = I \cdot R \quad \Longleftrightarrow \quad I = \frac{V}{R}
+    $$
+
+    **Kirchhoff's Current Law (KCL):**
+    $$
+    \sum_{k=1}^{n} I_k = 0 \quad \text{(Algebraic sum of currents entering a node is zero)}
+    $$
+
+    **Kirchhoff's Voltage Law (KVL):**
+    $$
+    \sum_{k=1}^{m} V_k = 0 \quad \text{(Algebraic sum of voltages around a closed loop is zero)}
+    $$
+
+    ---
+
+    ### Thévenin & Norton Equivalent Circuits
+    Any linear, bilateral two-terminal network can be replaced by:
+    - **Thévenin Equivalent**: An ideal voltage source $V_{th}$ in series with resistance $R_{th}$.
+    - **Norton Equivalent**: An ideal current source $I_n$ in parallel with resistance $R_n$.
+    
+    $$
+    I_n = \frac{V_{th}}{R_{th}}, \quad R_n = R_{th}
+    $$
+  </TabItem>
+
+  <TabItem label="🌊 AC Steady-State & Phasors">
+    ### Phasors & Impedance
+
+    For sinusoidal excitations $v(t) = V_m \cos(\omega t + \phi)$, the phasor representation is $\mathbf{V} = V_{rms} \angle \phi$.
+
+    **Impedance Elements:**
+    - Resistor: $Z_R = R$
+    - Inductor: $Z_L = j\omega L = \omega L \angle 90^\circ$
+    - Capacitor: $Z_C = \frac{1}{j\omega C} = -\frac{j}{\omega C} = \frac{1}{\omega C} \angle -90^\circ$
+
+    **Total Complex Power:**
+    $$
+    S = P + jQ = \mathbf{V}_{rms} \cdot \mathbf{I}_{rms}^*
+    $$
+    - Real Power: $P = |\mathbf{V}||\mathbf{I}|\cos(\theta)$ (Watts)
+    - Reactive Power: $Q = |\mathbf{V}||\mathbf{I}|\sin(\theta)$ (VAR)
+    - Apparent Power: $|S| = \sqrt{P^2 + Q^2}$ (VA)
+  </TabItem>
+
+  <TabItem label="🎯 Active Recall Checklist">
+    ### Quick Review Questions
+    1. [ ] How do you determine the reference polarity when setting up nodal analysis equations?
+    2. [ ] What is the condition for maximum power transfer in an AC circuit? ($Z_L = Z_{th}^*$)
+    3. [ ] What happens to the impedance of a parallel RLC resonant circuit at resonance? (Impedance is pure real and maximized).
+  </TabItem>
+</Tabs>

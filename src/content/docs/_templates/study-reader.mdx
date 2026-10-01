@@ -1,0 +1,64 @@
+---
+title: "Document Study Reader Template"
+description: "Interactive study reader embedding Mozilla PDF.js, Hypothesis social annotation, and Markdown notes."
+---
+
+import { Tabs, TabItem, Badge } from '@astrojs/starlight/components';
+
+<div style="display: flex; gap: 8px; margin-bottom: 1rem; align-items: center;">
+  <Badge text="Template" variant="tip" size="medium" />
+  <Badge text="Status: Ready" variant="success" size="medium" />
+  <span style="font-size: 0.9rem; opacity: 0.8;">Target PDF: <code>/study-files/_templates/sample-guide.pdf</code></span>
+</div>
+
+---
+
+## 📖 Interactive Document Viewer
+
+<iframe
+  src="/pdfjs/web/viewer.html?file=/study-files/_templates/sample-guide.pdf#view=FitH"
+  width="100%"
+  height="820px"
+  style="border: 1px solid var(--sl-color-gray-5); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+  allowfullscreen
+></iframe>
+
+> **Hypothesis Instructions**: Click the small chevron arrow on the upper-right corner of the viewer to open your Hypothesis annotation drawer. Log in to save highlights and private notes.
+
+---
+
+## 📝 Companion Study Notes
+
+<Tabs>
+  <TabItem label="📐 Key Formulas">
+    ### Mathematical Foundations
+    
+    Replace these with your topic's specific formulas:
+    
+    $$
+    E = mc^2
+    $$
+    
+    $$
+    V(t) = V_0 e^{-t / \tau}
+    $$
+    
+    $$
+    Z_{eq} = R + j\left(\omega L - \frac{1}{\omega C}\right)
+    $$
+  </TabItem>
+
+  <TabItem label="💡 Core Takeaways">
+    ### Executive Summary
+    - **Concept 1**: Key principle explained in Chapter 1.
+    - **Concept 2**: Critical relationship between input variables.
+    - **Concept 3**: Practical constraint or safety tolerance.
+  </TabItem>
+
+  <TabItem label="❓ Active Recall & Questions">
+    ### Self-Testing Checklist
+    1. [ ] Can you derive the primary equation from first principles?
+    2. [ ] What happens to the system under boundary conditions?
+    3. [ ] How is this applied in real-world engineering?
+  </TabItem>
+</Tabs>

@@ -6,19 +6,24 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'Study Hub & Knowledge Garden',
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/jrayas' }],
 			sidebar: [
 				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
+					label: '⚡ Electrical Engineering',
+					autogenerate: { directory: 'electrical' },
+				},
+				{
+					label: '📋 Blueprints & Templates',
+					autogenerate: { directory: '_templates' },
+				},
+				{
+					label: '📚 Guides',
+					autogenerate: { directory: 'guides' },
 				},
 				{
 					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
+					autogenerate: { directory: 'reference' },
 				},
 			],
 		}),
