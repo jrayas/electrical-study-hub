@@ -62,6 +62,265 @@ See https://github.com/adobe-type-tools/cmap-resources
       }
     })();
   </script>
+
+  <!-- Theme Handler: Light / Dark UI / Night Reader -->
+  <script>
+    (function () {
+      var THEMES = ['light', 'dark', 'night'];
+      function getSavedTheme() {
+        var saved = localStorage.getItem('pdf_study_theme');
+        if (saved && THEMES.indexOf(saved) !== -1) return saved;
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function updateButtonTitle(theme) {
+        var btn = document.getElementById('themeToggleBtn');
+        if (!btn) return;
+        if (theme === 'night') {
+          btn.title = 'Theme: Night Reader (Inverted PDF) - Click for Light Mode';
+          btn.setAttribute('aria-label', 'Theme: Night Reader');
+        } else if (theme === 'dark') {
+          btn.title = 'Theme: Dark UI - Click for Night Reader Mode';
+          btn.setAttribute('aria-label', 'Theme: Dark UI');
+        } else {
+          btn.title = 'Theme: Light UI - Click for Dark Mode';
+          btn.setAttribute('aria-label', 'Theme: Light UI');
+        }
+      }
+
+      function applyTheme(theme) {
+        var root = document.documentElement;
+        if (theme === 'night') {
+          root.setAttribute('data-theme', 'dark');
+          root.setAttribute('data-page-theme', 'dark');
+        } else if (theme === 'dark') {
+          root.setAttribute('data-theme', 'dark');
+          root.removeAttribute('data-page-theme');
+        } else {
+          root.setAttribute('data-theme', 'light');
+          root.removeAttribute('data-page-theme');
+        }
+        try { localStorage.setItem('pdf_study_theme', theme); } catch (e) {}
+        updateButtonTitle(theme);
+      }
+
+      applyTheme(getSavedTheme());
+
+      window.addEventListener('DOMContentLoaded', function () {
+        var btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+          updateButtonTitle(getSavedTheme());
+          btn.addEventListener('click', function () {
+            var current = getSavedTheme();
+            var nextIdx = (THEMES.indexOf(current) + 1) % THEMES.length;
+            applyTheme(THEMES[nextIdx]);
+          });
+        }
+      });
+    })();
+  </script>
+
+  <!-- Hypothesis Toolbar Integration & Drawer Controller -->
+  <script>
+    (function () {
+      function getHypothesisSidebar() {
+        return document.querySelector('hypothesis-sidebar');
+      }
+
+      function getHypothesisTrigger() {
+        var sidebar = getHypothesisSidebar();
+        if (!sidebar) return null;
+        if (sidebar.shadowRoot) {
+          return sidebar.shadowRoot.querySelector('button[aria-label*="Hypothesis"]') ||
+                 sidebar.shadowRoot.querySelector('button[data-testid="sidebar-toggle"]') ||
+                 sidebar.shadowRoot.querySelector('button.h-sidebar-trigger') ||
+                 sidebar.shadowRoot.querySelector('button');
+        }
+        return sidebar.querySelector('button');
+      }
+
+      function isHypothesisInternalOpen() {
+        var sidebar = getHypothesisSidebar();
+        if (!sidebar) return false;
+        var frame = sidebar.shadowRoot ? sidebar.shadowRoot.querySelector('.sidebar-frame, .sidebar-container') : sidebar.querySelector('.sidebar-frame');
+        if (frame) {
+          return !frame.classList.contains('sidebar-collapsed');
+        }
+        return false;
+      }
+
+      function setAnnotatorOpen(open) {
+        var btn = document.getElementById('hypothesisSidebarToggle');
+        var sidebar = getHypothesisSidebar();
+        if (open) {
+          document.body.classList.add('annotator-open');
+          if (sidebar) sidebar.classList.add('annotator-open');
+          if (btn) {
+            btn.classList.add('toggled');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+          var trigger = getHypothesisTrigger();
+          if (trigger && !isHypothesisInternalOpen()) {
+            trigger.click();
+          }
+        } else {
+          document.body.classList.remove('annotator-open');
+          if (sidebar) sidebar.classList.remove('annotator-open');
+          if (btn) {
+            btn.classList.remove('toggled');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+          var trigger = getHypothesisTrigger();
+          if (trigger && isHypothesisInternalOpen()) {
+            trigger.click();
+          }
+        }
+      }
+
+      function toggleAnnotator(force) {
+        var isCurrentlyOpen = document.body.classList.contains('annotator-open');
+        var shouldOpen = (typeof force === 'boolean') ? force : !isCurrentlyOpen;
+        setAnnotatorOpen(shouldOpen);
+      }
+
+      function injectShadowStyles(sidebar) {
+        if (!sidebar || !sidebar.shadowRoot) return;
+        if (sidebar.shadowRoot.getElementById('custom-drawer-styles')) return;
+
+        var style = document.createElement('style');
+        style.id = 'custom-drawer-styles';
+        style.textContent = [
+          ':host(:not(.annotator-open)) [data-testid="sidebar-edge"] { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }',
+          ':host(.annotator-open) [data-testid="sidebar-edge"] { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }'
+        ].join('\n');
+        sidebar.shadowRoot.appendChild(style);
+      }
+
+      function setupHypothesisButton() {
+        var btn = document.getElementById('hypothesisSidebarToggle');
+        if (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleAnnotator();
+          });
+        }
+
+        // Global hotkey: Alt+A or Ctrl+Shift+A toggles annotator, Esc closes it when open
+        document.addEventListener('keydown', function (e) {
+          if ((e.altKey && e.key.toLowerCase() === 'a') || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a')) {
+            e.preventDefault();
+            toggleAnnotator();
+          } else if (e.key === 'Escape' && document.body.classList.contains('annotator-open')) {
+            setAnnotatorOpen(false);
+          }
+        });
+
+        // Auto-open when user clicks an annotation highlight or selects text to annotate
+        document.addEventListener('mouseup', function () {
+          setTimeout(function () {
+            if (isHypothesisInternalOpen() && !document.body.classList.contains('annotator-open')) {
+              setAnnotatorOpen(true);
+            }
+          }, 150);
+        });
+
+        var checkInterval = setInterval(function () {
+          var sidebar = getHypothesisSidebar();
+          if (sidebar && sidebar.shadowRoot) {
+            injectShadowStyles(sidebar);
+            try {
+              var obs = new MutationObserver(function () {
+                injectShadowStyles(sidebar);
+                var open = isHypothesisInternalOpen();
+                if (open !== document.body.classList.contains('annotator-open')) {
+                  if (open) {
+                    document.body.classList.add('annotator-open');
+                    sidebar.classList.add('annotator-open');
+                    if (btn) btn.classList.add('toggled');
+                  } else {
+                    document.body.classList.remove('annotator-open');
+                    sidebar.classList.remove('annotator-open');
+                    if (btn) btn.classList.remove('toggled');
+                  }
+                }
+              });
+              obs.observe(sidebar.shadowRoot, { attributes: true, subtree: true, childList: true });
+              clearInterval(checkInterval);
+            } catch (err) {}
+          }
+        }, 250);
+      }
+
+      window.addEventListener('DOMContentLoaded', setupHypothesisButton);
+    })();
+  </script>
+
+  <!-- Read Mode / Focus Mode Controller (Adobe Acrobat style) -->
+  <script>
+    (function () {
+      function setReadMode(active) {
+        var isCurrentlyActive = document.body.classList.contains('read-mode');
+        var shouldBeActive = (typeof active === 'boolean') ? active : !isCurrentlyActive;
+
+        var btn = document.getElementById('readModeToggleBtn');
+
+        if (shouldBeActive) {
+          // Collapse PDF sidebar if open
+          if (window.PDFViewerApplication && window.PDFViewerApplication.pdfSidebar && window.PDFViewerApplication.pdfSidebar.isOpen) {
+            window.PDFViewerApplication.pdfSidebar.close();
+          }
+
+          // Collapse Hypothesis sidebar if open
+          document.body.classList.remove('annotator-open');
+          var sidebar = document.querySelector('hypothesis-sidebar');
+          if (sidebar) sidebar.classList.remove('annotator-open');
+          var notesBtn = document.getElementById('hypothesisSidebarToggle');
+          if (notesBtn) notesBtn.classList.remove('toggled');
+
+          document.body.classList.add('read-mode');
+          if (btn) btn.classList.add('toggled');
+        } else {
+          document.body.classList.remove('read-mode');
+          if (btn) btn.classList.remove('toggled');
+        }
+
+        // Trigger PDF re-scale/resize calculation smoothly
+        setTimeout(function () {
+          if (window.PDFViewerApplication && window.PDFViewerApplication.pdfViewer) {
+            window.PDFViewerApplication.pdfViewer.update();
+          }
+        }, 260);
+      }
+
+      window.addEventListener('DOMContentLoaded', function () {
+        var toggleBtn = document.getElementById('readModeToggleBtn');
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            setReadMode();
+          });
+        }
+
+        var exitBar = document.getElementById('readModeExitBar');
+        if (exitBar) {
+          exitBar.addEventListener('click', function () {
+            setReadMode(false);
+          });
+        }
+
+        // Keyboard shortcuts: Esc to exit read mode, Ctrl+H / Cmd+H to toggle read mode
+        window.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && document.body.classList.contains('read-mode')) {
+            setReadMode(false);
+          } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            setReadMode();
+          }
+        });
+      });
+    })();
+  </script>
   </head>
 
   <body tabindex="1">
@@ -320,6 +579,22 @@ See https://github.com/adobe-type-tools/cmap-resources
                 <!-- Should be visible when the "editorModeButtons" are visible. -->
                 <div id="editorModeSeparator" class="verticalToolbarSeparator hidden"></div>
 
+                <button id="hypothesisSidebarToggle" class="toolbarButton" data-hypothesis-trigger title="Toggle Annotations Sidebar (Hypothesis)" tabindex="45">
+                  <span class="hidden">Notes</span>
+                </button>
+
+                <button id="readModeToggleBtn" class="toolbarButton" title="Read / Focus Mode (Hide toolbars & sidebars)" tabindex="46">
+                  <span class="hidden">Read Mode</span>
+                </button>
+
+                <div class="verticalToolbarSeparator"></div>
+
+                <button id="themeToggleBtn" class="toolbarButton" title="Switch Theme (Light / Dark / Night Mode)" tabindex="47">
+                  <span class="hidden">Theme</span>
+                </button>
+
+                <div class="verticalToolbarSeparator"></div>
+
                 <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="48" data-l10n-id="tools" aria-expanded="false" aria-controls="secondaryToolbar">
                   <span data-l10n-id="tools_label">Tools</span>
                 </button>
@@ -478,7 +753,10 @@ See https://github.com/adobe-type-tools/cmap-resources
       </div>  <!-- dialogContainer -->
 
     </div> <!-- outerContainer -->
-    <div id="printContainer"></div>
+    <div id="readModeExitBar" role="button" tabindex="0" title="Exit Read Mode (Esc)">
+      <span>📖 Read Mode</span>
+      <span style="opacity: 0.7; font-size: 11px; margin-left: 6px;">Press Esc to Exit ✕</span>
+    </div>
 
     <input type="file" id="fileInput" class="hidden">
   </body>

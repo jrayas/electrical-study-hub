@@ -1064,6 +1064,11 @@
   --toolbarButton-editorInk-icon: url(images/toolbarButton-editorInk.svg);
   --toolbarButton-menuArrow-icon: url(images/toolbarButton-menuArrow.svg);
   --toolbarButton-sidebarToggle-icon: url(images/toolbarButton-sidebarToggle.svg);
+  --toolbarButton-hypothesisSidebarToggle-icon: url(images/toolbarButton-annotator.svg);
+  --toolbarButton-readMode-icon: url(images/toolbarButton-readMode.svg);
+  --toolbarButton-themeMoon-icon: url(images/toolbarButton-themeMoon.svg);
+  --toolbarButton-themeSun-icon: url(images/toolbarButton-themeSun.svg);
+  --toolbarButton-themeNight-icon: url(images/toolbarButton-themeNight.svg);
   --toolbarButton-secondaryToolbarToggle-icon: url(images/toolbarButton-secondaryToolbarToggle.svg);
   --toolbarButton-pageUp-icon: url(images/toolbarButton-pageUp.svg);
   --toolbarButton-pageDown-icon: url(images/toolbarButton-pageDown.svg);
@@ -1103,7 +1108,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --main-color: rgba(249, 249, 250, 1);
     --body-bg-color: rgba(42, 42, 46, 1);
     --errorWrapper-bg-color: rgba(169, 14, 14, 1);
@@ -1141,11 +1146,158 @@
     --dialog-button-bg-color: rgba(92, 92, 97, 1);
     --dialog-button-hover-bg-color: rgba(115, 115, 115, 1);
 
-    /* This image is used in <input> elements, which unfortunately means that
-     * the `mask-image` approach used with all of the other images doesn't work
-     * here; hence why we still have two versions of this particular image. */
     --loading-icon: url(images/loading-dark.svg);
   }
+}
+
+:root[data-theme="dark"] {
+  --main-color: rgba(249, 249, 250, 1);
+  --body-bg-color: rgba(42, 42, 46, 1);
+  --errorWrapper-bg-color: rgba(169, 14, 14, 1);
+  --progressBar-color: rgba(0, 96, 223, 1);
+  --progressBar-indeterminate-bg-color: rgba(40, 40, 43, 1);
+  --progressBar-indeterminate-blend-color: rgba(20, 68, 133, 1);
+  --scrollbar-color: rgba(121, 121, 123, 1);
+  --scrollbar-bg-color: rgba(35, 35, 39, 1);
+  --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
+  --toolbar-icon-hover-bg-color: rgba(255, 255, 255, 1);
+
+  --sidebar-narrow-bg-color: rgba(42, 42, 46, 0.9);
+  --sidebar-toolbar-bg-color: rgba(50, 50, 52, 1);
+  --toolbar-bg-color: rgba(56, 56, 61, 1);
+  --toolbar-border-color: rgba(12, 12, 13, 1);
+  --button-hover-color: rgba(102, 102, 103, 1);
+  --toggled-btn-color: rgba(255, 255, 255, 1);
+  --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+  --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+  --dropdown-btn-bg-color: rgba(74, 74, 79, 1);
+  --separator-color: rgba(0, 0, 0, 0.3);
+  --field-color: rgba(250, 250, 250, 1);
+  --field-bg-color: rgba(64, 64, 68, 1);
+  --field-border-color: rgba(115, 115, 115, 1);
+  --treeitem-color: rgba(255, 255, 255, 0.8);
+  --treeitem-hover-color: rgba(255, 255, 255, 0.9);
+  --treeitem-selected-color: rgba(255, 255, 255, 0.9);
+  --treeitem-selected-bg-color: rgba(255, 255, 255, 0.25);
+  --sidebaritem-bg-color: rgba(255, 255, 255, 0.15);
+  --doorhanger-bg-color: rgba(74, 74, 79, 1);
+  --doorhanger-border-color: rgba(39, 39, 43, 1);
+  --doorhanger-hover-color: rgba(249, 249, 250, 1);
+  --doorhanger-hover-bg-color: rgba(93, 94, 98, 1);
+  --doorhanger-separator-color: rgba(92, 92, 97, 1);
+  --dialog-button-bg-color: rgba(92, 92, 97, 1);
+  --dialog-button-hover-bg-color: rgba(115, 115, 115, 1);
+
+  --loading-icon: url(images/loading-dark.svg);
+}
+
+:root[data-page-theme="dark"] .page .canvasWrapper {
+  filter: invert(0.88) hue-rotate(180deg) brightness(0.95);
+}
+:root[data-page-theme="dark"] .page {
+  background-color: #1e1e1e !important;
+}
+
+/* Hypothesis Modern Theming & Dark Mode Sync */
+:root[data-theme="dark"] hypothesis-sidebar,
+:root[data-theme="dark"] .annotator-frame,
+:root[data-theme="dark"] iframe[name="hypothes.is"],
+:root[data-theme="dark"] [data-hypothesis-frame] {
+  filter: invert(0.9) hue-rotate(180deg) contrast(0.95);
+}
+
+/* Hypothesis Modern Drawer: Off-screen & completely hidden by default */
+hypothesis-sidebar {
+  display: block !important;
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 440px !important;
+  max-width: 90vw !important;
+  overflow: hidden !important;
+  transform: translateX(100%) !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, visibility 0.28s !important;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.28) !important;
+  border-left: 1px solid var(--toolbar-border-color, rgba(0, 0, 0, 0.15)) !important;
+  z-index: 99999 !important;
+}
+
+/* When toggled open via top toolbar or annotation trigger: */
+body.annotator-open hypothesis-sidebar,
+html.annotator-open hypothesis-sidebar,
+hypothesis-sidebar.annotator-open {
+  overflow: visible !important;
+  transform: translateX(0) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+#hypothesisSidebarToggle.toggled,
+#readModeToggleBtn.toggled,
+#themeToggleBtn.toggled {
+  background-color: var(--toggled-btn-bg-color, rgba(0, 0, 0, 0.3)) !important;
+  color: var(--toggled-btn-color, #ffffff) !important;
+  border-radius: 2px;
+}
+
+/* Adobe Acrobat-Style Read / Focus Mode */
+body.read-mode #toolbarContainer {
+  transform: translateY(-100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+body.read-mode #viewerContainer {
+  top: 0 !important;
+  bottom: 0 !important;
+  transition: top 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.read-mode #sidebarContainer {
+  transform: translateX(-100%) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.read-mode hypothesis-sidebar {
+  transform: translateX(100%) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#readModeExitBar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999999;
+  background: var(--toolbar-bg-color, rgba(42, 42, 46, 0.9));
+  color: var(--main-color, #ffffff);
+  border: 1px solid var(--toolbar-border-color, rgba(255, 255, 255, 0.18));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#readModeExitBar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.4);
+}
+
+body.read-mode #readModeExitBar {
+  display: flex;
 }
 
 @media screen and (forced-colors: active) {
@@ -2164,6 +2316,40 @@ select {
   -webkit-mask-image: var(--toolbarButton-sidebarToggle-icon);
           mask-image: var(--toolbarButton-sidebarToggle-icon);
   transform: scaleX(var(--dir-factor));
+}
+
+#hypothesisSidebarToggle::before {
+  -webkit-mask-image: var(--toolbarButton-hypothesisSidebarToggle-icon);
+          mask-image: var(--toolbarButton-hypothesisSidebarToggle-icon);
+}
+
+#readModeToggleBtn::before {
+  -webkit-mask-image: var(--toolbarButton-readMode-icon);
+          mask-image: var(--toolbarButton-readMode-icon);
+}
+
+/* Theme Mode Icon (Sun for Light, Moon for Dark, Contrast/Night for Night Reader) */
+#themeToggleBtn::before,
+:root[data-theme="light"] #themeToggleBtn::before {
+  -webkit-mask-image: var(--toolbarButton-themeSun-icon);
+          mask-image: var(--toolbarButton-themeSun-icon);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #themeToggleBtn::before {
+    -webkit-mask-image: var(--toolbarButton-themeMoon-icon);
+            mask-image: var(--toolbarButton-themeMoon-icon);
+  }
+}
+
+:root[data-theme="dark"]:not([data-page-theme="dark"]) #themeToggleBtn::before {
+  -webkit-mask-image: var(--toolbarButton-themeMoon-icon);
+          mask-image: var(--toolbarButton-themeMoon-icon);
+}
+
+:root[data-page-theme="dark"] #themeToggleBtn::before {
+  -webkit-mask-image: var(--toolbarButton-themeNight-icon);
+          mask-image: var(--toolbarButton-themeNight-icon);
 }
 
 #secondaryToolbarToggle::before {
