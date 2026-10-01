@@ -29,7 +29,7 @@ if (fs.existsSync(dirPath)) {
     const stats = fs.statSync(filePath);
     const sizeInKb = (stats.size / 1024).toFixed(1);
     const sizeStr = stats.size > 1024 * 1024 
-      ? `${(stats.size / (1024 * 1024)).toFixed(1)} MB` 
+      ? `${(stats.size / (1024 * 1024)).toFixed(2)} MB` 
       : `${sizeInKb} KB`;
 
     const cleanTitle = file
@@ -51,24 +51,41 @@ if (fs.existsSync(dirPath)) {
 }
 ---
 
-<div class="bookshelf">
+<div class="pub-wrapper">
   {files.length === 0 ? (
-    <p class="empty">No PDFs found.</p>
+    <p class="pub-empty">No documents found.</p>
   ) : (
-    <div class="grid">
+    <div class="pub-list">
       {files.map((pdf) => (
-        <div class="card">
-          <div class="card-top">
-            <span class="size">{pdf.size}</span>
+        <div class="pub-item">
+          <div class="pub-title-col">
+            <a 
+              href={pdf.viewerUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="pub-title-link"
+            >
+              {pdf.title}
+            </a>
           </div>
 
-          <h3 class="title">{pdf.title}</h3>
-
-          <div class="actions">
-            <a href={pdf.viewerUrl} target="_blank" rel="noopener noreferrer" class="read-btn">
+          <div class="pub-meta-actions">
+            <span class="pub-size">{pdf.size}</span>
+            <span class="pub-sep">/</span>
+            <a 
+              href={pdf.viewerUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="pub-action-link"
+            >
               Read ↗
             </a>
-            <a href={pdf.url} download class="dl-btn">
+            <span class="pub-sep">·</span>
+            <a 
+              href={pdf.url} 
+              download 
+              class="pub-action-link"
+            >
               Download
             </a>
           </div>
@@ -79,78 +96,79 @@ if (fs.existsSync(dirPath)) {
 </div>
 
 <style>
-  .bookshelf {
-    margin: 1.5rem 0;
+  .pub-wrapper {
+    margin: 2rem 0;
   }
 
-  .empty {
-    padding: 2rem;
-    text-align: center;
+  .pub-empty {
+    padding: 2rem 0;
     color: var(--sl-color-gray-3);
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-
-  .card {
+  .pub-list {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+
+  .pub-item {
+    display: flex;
     justify-content: space-between;
-    padding: 1.25rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 8px;
-    background: var(--sl-color-bg-sidebar);
-    gap: 1rem;
+    align-items: center;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--sl-color-hairline);
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    transition: background 0.15s ease;
   }
 
-  .card-top {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .size {
-    font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
-  }
-
-  .title {
-    margin: 0 !important;
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    color: var(--sl-color-text) !important;
-  }
-
-  .actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .read-btn {
+  .pub-title-col {
     flex: 1;
-    text-align: center;
-    padding: 0.5rem;
-    font-size: 0.85rem;
+    min-width: 250px;
+  }
+
+  .pub-title-link {
+    font-size: 1.15rem;
     font-weight: 600;
-    color: var(--sl-color-text-invert) !important;
-    background: var(--sl-color-accent);
-    border-radius: 6px;
-    text-decoration: none !important;
-  }
-
-  .dl-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
     color: var(--sl-color-text) !important;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 6px;
-    text-decoration: none !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: var(--sl-color-hairline);
+    transition: all 0.15s ease;
   }
 
-  .read-btn:hover, .dl-btn:hover {
-    filter: brightness(1.1);
+  .pub-title-link:hover {
+    color: var(--sl-color-accent) !important;
+    text-decoration-color: var(--sl-color-accent) !important;
+  }
+
+  .pub-meta-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .pub-size {
+    color: var(--sl-color-gray-3);
+    font-family: monospace;
+    font-size: 0.8rem;
+  }
+
+  .pub-sep {
+    color: var(--sl-color-hairline);
+  }
+
+  .pub-action-link {
+    color: var(--sl-color-accent) !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 500;
+    transition: opacity 0.15s ease;
+  }
+
+  .pub-action-link:hover {
+    opacity: 0.75;
   }
 </style>

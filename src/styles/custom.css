@@ -1,26 +1,103 @@
-/* Clean unboxed domain links with underline and hover highlight */
+/* Write the Docs inspired palette & editorial typography */
+:root {
+  --sl-color-bg: #faf9f6;
+  --sl-color-bg-nav: #f5f3ee;
+  --sl-color-bg-sidebar: #f5f3ee;
+  --sl-color-text: #23262b;
+  --sl-color-accent: #2e6f77;
+  --sl-color-accent-high: #1d4b51;
+  --sl-color-accent-low: #e4eeeb;
+  --sl-color-hairline: #e6e3da;
+  --sl-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+[data-theme='dark'] {
+  --sl-color-bg: #16181a;
+  --sl-color-bg-nav: #131416;
+  --sl-color-bg-sidebar: #131416;
+  --sl-color-text: #e6e4de;
+  --sl-color-accent: #5ebaa8;
+  --sl-color-accent-high: #7ed0bf;
+  --sl-color-accent-low: #1d2c29;
+  --sl-color-hairline: #272a2e;
+}
+
+/* Minimalist Unboxed Domain Links (No boxes, clean underline, hover highlight) */
 .domain-links {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  margin: 2rem 0;
+  margin: 1.5rem 0 3rem 0;
 }
 
-.domain-links a {
+.domain-link {
   display: inline-block;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: var(--sl-color-text);
   text-decoration: underline;
   text-underline-offset: 8px;
-  text-decoration-thickness: 2px;
-  text-decoration-color: var(--sl-color-gray-4);
-  transition: all 0.15s ease;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--sl-color-hairline);
+  transition: all 0.2s ease;
   width: fit-content;
 }
 
-.domain-links a:hover {
-  color: var(--sl-color-accent-high);
+.domain-link:hover {
+  color: var(--sl-color-accent);
   text-decoration-color: var(--sl-color-accent);
   transform: translateX(4px);
+}
+
+/* Editorial Publication List (Unboxed, subtle hairline dividers) */
+.pub-list {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--sl-color-hairline);
+}
+
+.pub-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--sl-color-hairline);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pub-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--sl-color-text);
+}
+
+.pub-meta-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pub-size {
+  font-size: 0.8rem;
+  color: var(--sl-color-gray-3);
+  font-family: monospace;
+}
+
+.pub-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--sl-color-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.pub-link:hover {
+  opacity: 0.8;
+}
+
+.pub-divider {
+  color: var(--sl-color-hairline);
 }
