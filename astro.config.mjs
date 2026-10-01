@@ -16,6 +16,7 @@ export default defineConfig({
 					label: 'Libraries',
 					items: [
 						{ label: 'Electrical', slug: 'electrical' },
+						{ label: 'Health', slug: 'health' },
 						{ label: 'Template', slug: '_templates/domain-index' },
 					],
 				},
