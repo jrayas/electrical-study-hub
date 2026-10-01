@@ -15,7 +15,6 @@ interface PdfItem {
   size: string;
   url: string;
   viewerUrl: string;
-  hypothesisUrl: string;
 }
 
 let files: PdfItem[] = [];
@@ -40,10 +39,6 @@ if (fs.existsSync(dirPath)) {
 
     const fileUrl = `${base}/study-files/${domain}/${file}`;
     const viewerUrl = `${base}/pdfjs/web/viewer.html?file=${encodeURIComponent(fileUrl)}#view=FitH`;
-    
-    // Direct Hypothesis Via viewer: bypasses third-party cookie restrictions in browsers
-    const fullPublicPdfUrl = `https://jrayas.github.io${base}/study-files/${domain}/${encodeURIComponent(file)}`;
-    const hypothesisUrl = `https://via.hypothes.is/${fullPublicPdfUrl}`;
 
     return {
       name: file,
@@ -51,7 +46,6 @@ if (fs.existsSync(dirPath)) {
       size: sizeStr,
       url: fileUrl,
       viewerUrl,
-      hypothesisUrl,
     };
   });
 }
@@ -66,11 +60,11 @@ if (fs.existsSync(dirPath)) {
         <div class="pub-item">
           <div class="pub-title-col">
             <a 
-              href={pdf.hypothesisUrl} 
+              href={pdf.viewerUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
               class="pub-title-link"
-              title="Annotate with Hypothesis"
+              title="Open and annotate PDF"
             >
               {pdf.title}
             </a>
@@ -80,23 +74,13 @@ if (fs.existsSync(dirPath)) {
             <span class="pub-size">{pdf.size}</span>
             <span class="pub-sep">/</span>
             <a 
-              href={pdf.hypothesisUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="pub-action-link pub-accent-link"
-              title="Open with Hypothesis (Direct viewer, no third-party cookie issues)"
-            >
-              Annotate ↗
-            </a>
-            <span class="pub-sep">·</span>
-            <a 
               href={pdf.viewerUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="pub-action-link"
-              title="Open in local PDF.js viewer"
+              class="pub-action-link pub-accent-link"
+              title="Open in PDF viewer with Hypothesis annotation sidebar"
             >
-              Read ↗
+              Read &amp; Annotate ↗
             </a>
             <span class="pub-sep">·</span>
             <a 
