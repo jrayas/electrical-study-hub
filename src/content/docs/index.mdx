@@ -1,66 +1,34 @@
 ---
-title: Engineering Knowledge Garden & Study Hub
-description: Personal web-hosted study hub featuring embedded PDF.js readers, Hypothesis annotations, and domain knowledge bases.
+title: "Study Hub"
+description: "PDF library with built-in annotations."
 template: splash
 hero:
-  tagline: Deep reading, active annotations, and domain knowledge bases powered by Astro Starlight, Mozilla PDF.js, and Hypothesis.
-  image:
-    file: ../../assets/houston.webp
+  tagline: "Read and annotate PDFs."
   actions:
-    - text: Open Electrical Hub
+    - text: "Electrical"
       link: /electrical/
       icon: right-arrow
       variant: primary
-    - text: Domain Blueprint Template
+    - text: "Template"
       link: /_templates/domain-index/
       icon: document
       variant: secondary
 ---
 
-import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## 🌐 Study Domains
-
-<CardGrid stagger>
-  <Card title="⚡ Electrical Engineering" icon="puzzle">
-    **Active Domain:** Circuit analysis, three-phase power systems, transmission line modeling, and semiconductor physics.
-    
-    [Explore Electrical Hub &rarr;](/electrical/)
-  </Card>
-
-  <Card title="📋 Template & Blueprints" icon="setting">
-    **Modular Design:** Ready-to-copy templates for spinning up new study categories and PDF reader subpages in 60 seconds.
-    
-    [View Templates &rarr;](/_templates/domain-index/)
-  </Card>
-
-  <Card title="💻 Computer Science & Coding" icon="laptop">
-    *Coming Soon:* Algorithms, systems programming, distributed systems, and codebase architectures.
-  </Card>
-
-  <Card title="🔬 Applied Physics & Mathematics" icon="open-book">
-    *Coming Soon:* Electromagnetism, signal processing math, and vector calculus companions.
-  </Card>
-</CardGrid>
-
----
-
-## 🚀 Hub Features
+## Domains
 
 <CardGrid>
-  <Card title="Mozilla PDF.js Engine" icon="document">
-    High-performance, client-side PDF rendering served directly from your static files with zero external dependencies.
+  <Card title="⚡ Electrical" icon="document">
+    Electrical engineering PDFs.
+
+    [Open &rarr;](/electrical/)
   </Card>
 
-  <Card title="Hypothesis Annotations" icon="pencil">
-    Persistent highlighting, margin notes, and social discussion layered directly over the PDF canvas.
-  </Card>
+  <Card title="📋 Template" icon="setting">
+    Blueprint for new domains.
 
-  <Card title="LaTeX Math & KaTeX" icon="star">
-    Crisp mathematical formulas and circuit equations embedded natively alongside your reading notes.
-  </Card>
-
-  <Card title="Instant Offline Search" icon="magnifier">
-    Lightning-fast Pagefind client-side search across all notes, tags, summaries, and domain modules.
+    [Open &rarr;](/_templates/domain-index/)
   </Card>
 </CardGrid>

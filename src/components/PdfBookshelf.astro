@@ -7,8 +7,6 @@ interface Props {
 }
 
 const { domain } = Astro.props;
-
-// Locate the folder on disk
 const dirPath = path.join(process.cwd(), 'public', 'study-files', domain);
 
 interface PdfItem {
@@ -16,7 +14,7 @@ interface PdfItem {
   title: string;
   size: string;
   url: string;
-  directViewerUrl: string;
+  viewerUrl: string;
 }
 
 let files: PdfItem[] = [];
@@ -31,10 +29,9 @@ if (fs.existsSync(dirPath)) {
     const stats = fs.statSync(filePath);
     const sizeInKb = (stats.size / 1024).toFixed(1);
     const sizeStr = stats.size > 1024 * 1024 
-      ? `${(stats.size / (1024 * 1024)).toFixed(2)} MB` 
+      ? `${(stats.size / (1024 * 1024)).toFixed(1)} MB` 
       : `${sizeInKb} KB`;
 
-    // Convert filename like "circuit-analysis-fundamentals.pdf" -> "Circuit Analysis Fundamentals"
     const cleanTitle = file
       .replace(/\.pdf$/i, '')
       .replace(/[-_]/g, ' ')
@@ -48,54 +45,31 @@ if (fs.existsSync(dirPath)) {
       title: cleanTitle,
       size: sizeStr,
       url: fileUrl,
-      directViewerUrl: viewerUrl,
+      viewerUrl,
     };
   });
 }
 ---
 
-<div class="bookshelf-wrapper">
+<div class="bookshelf">
   {files.length === 0 ? (
-    <div class="empty-bookshelf">
-      <p>📭 No PDF documents found in <code>public/study-files/{domain}/</code> yet.</p>
-      <p class="empty-hint">Drop your <code>.pdf</code> files into that folder and they will automatically appear here!</p>
-    </div>
+    <p class="empty">No PDFs found.</p>
   ) : (
-    <div class="bookshelf-grid">
+    <div class="grid">
       {files.map((pdf) => (
-        <div class="pdf-card">
-          <div class="pdf-card-header">
-            <span class="pdf-badge">PDF Document</span>
-            <span class="pdf-size">{pdf.size}</span>
+        <div class="card">
+          <div class="card-top">
+            <span class="size">{pdf.size}</span>
           </div>
 
-          <div class="pdf-card-body">
-            <div class="pdf-icon-wrapper">
-              <span class="doc-icon">📕</span>
-            </div>
-            <div class="pdf-details">
-              <h3 class="pdf-title">{pdf.title}</h3>
-              <p class="pdf-filename"><code>{pdf.name}</code></p>
-            </div>
-          </div>
+          <h3 class="title">{pdf.title}</h3>
 
-          <div class="pdf-card-footer">
-            <a 
-              href={pdf.directViewerUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="launch-btn"
-              title="Launch full-screen PDF.js + Hypothesis reader in a dedicated tab"
-            >
-              <span>⛶ Open Fullscreen Reader</span>
+          <div class="actions">
+            <a href={pdf.viewerUrl} target="_blank" rel="noopener noreferrer" class="read-btn">
+              Read ↗
             </a>
-            <a 
-              href={pdf.url} 
-              download 
-              class="download-btn"
-              title="Download original PDF file"
-            >
-              <span>📥</span>
+            <a href={pdf.url} download class="dl-btn">
+              Download
             </a>
           </div>
         </div>
@@ -105,146 +79,78 @@ if (fs.existsSync(dirPath)) {
 </div>
 
 <style>
-  .bookshelf-wrapper {
-    margin: 2rem 0;
+  .bookshelf {
+    margin: 1.5rem 0;
   }
 
-  .empty-bookshelf {
-    padding: 2.5rem;
+  .empty {
+    padding: 2rem;
     text-align: center;
-    border: 2px dashed var(--sl-color-gray-5);
-    border-radius: 12px;
-    background: var(--sl-color-bg-sidebar);
+    color: var(--sl-color-gray-3);
   }
 
-  .empty-hint {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    opacity: 0.8;
-  }
-
-  .bookshelf-grid {
+  .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
   }
 
-  .pdf-card {
+  .card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: var(--sl-color-bg-sidebar);
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 12px;
     padding: 1.25rem;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  }
-
-  .pdf-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--sl-color-accent);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-
-  .pdf-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .pdf-badge {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 0.2rem 0.55rem;
-    border-radius: 4px;
-    background: var(--sl-color-accent-low);
-    color: var(--sl-color-accent-high);
-  }
-
-  .pdf-size {
-    font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
-    font-family: monospace;
-  }
-
-  .pdf-card-body {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-  }
-
-  .pdf-icon-wrapper {
-    font-size: 2rem;
-    line-height: 1;
-    padding: 0.4rem;
-    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
     border-radius: 8px;
+    background: var(--sl-color-bg-sidebar);
+    gap: 1rem;
   }
 
-  .pdf-details {
-    flex: 1;
+  .card-top {
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .pdf-title {
+  .size {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .title {
     margin: 0 !important;
     font-size: 1.1rem !important;
-    font-weight: 700 !important;
-    line-height: 1.3 !important;
+    font-weight: 600 !important;
     color: var(--sl-color-text) !important;
   }
 
-  .pdf-filename {
-    margin: 0.35rem 0 0 0 !important;
-    font-size: 0.78rem !important;
-    opacity: 0.75;
-  }
-
-  .pdf-card-footer {
+  .actions {
     display: flex;
     gap: 0.5rem;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 1px solid var(--sl-color-gray-6);
   }
 
-  .launch-btn {
+  .read-btn {
     flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--sl-color-text-invert) !important;
     background: var(--sl-color-accent);
-    border-radius: 8px;
+    border-radius: 6px;
     text-decoration: none !important;
-    transition: filter 0.15s ease;
   }
 
-  .launch-btn:hover {
-    filter: brightness(1.12);
-  }
-
-  .download-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.6rem 0.85rem;
-    font-size: 1rem;
+  .dl-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    color: var(--sl-color-text) !important;
     background: var(--sl-color-gray-6);
     border: 1px solid var(--sl-color-gray-5);
-    border-radius: 8px;
+    border-radius: 6px;
     text-decoration: none !important;
-    transition: background 0.15s ease;
   }
 
-  .download-btn:hover {
-    background: var(--sl-color-gray-5);
+  .read-btn:hover, .dl-btn:hover {
+    filter: brightness(1.1);
   }
 </style>

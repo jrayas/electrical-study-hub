@@ -1,33 +1,8 @@
 ---
-title: "⚡ Electrical Engineering Library"
-description: "Direct full-screen PDF study library with Mozilla PDF.js and Hypothesis annotation."
+title: "Electrical"
+description: "Electrical engineering PDF library."
 ---
 
 import PdfBookshelf from '../../../components/PdfBookshelf.astro';
-import { Card, CardGrid, Badge } from '@astrojs/starlight/components';
-
-Welcome to the **Electrical Engineering Study Library**. 
-
-All documents here open directly in the **100% full-screen Mozilla PDF.js reader** equipped with **Hypothesis annotations**—giving you the entire browser viewport for distraction-free reading, page zooming, and highlighting.
-
----
-
-## 📚 Document Bookshelf
 
 <PdfBookshelf domain="electrical" />
-
----
-
-## 💡 How to Add More Textbooks or Papers (Zero MDX)
-
-You do **not** need to create any `.mdx` or code files to add new study material:
-
-1. Drop your `.pdf` file directly into your local folder:
-   ```
-   public/study-files/electrical/your-textbook.pdf
-   ```
-2. Commit and push:
-   ```bash
-   git add . && git commit -m "add: new electrical book" && git push
-   ```
-3. The bookshelf above **automatically discovers** the new file, formats its title, calculates its file size, and generates the full-screen reader link!
