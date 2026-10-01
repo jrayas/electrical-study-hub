@@ -2,9 +2,10 @@
 interface Props {
   file: string;
   height?: string;
+  title?: string;
 }
 
-const { file, height = '840px' } = Astro.props;
+const { file, height = '90vh', title } = Astro.props;
 
 // Ensure base URL without trailing slash
 const rawBase = import.meta.env.BASE_URL || '/';
@@ -14,21 +15,131 @@ const base = rawBase === '/' ? '' : rawBase.replace(/\/$/, '');
 const cleanFile = file.startsWith('/') ? file : `/${file}`;
 const targetFileUrl = `${base}${cleanFile}`;
 const viewerSrc = `${base}/pdfjs/web/viewer.html?file=${encodeURIComponent(targetFileUrl)}#view=FitH`;
+
+const fileName = title || cleanFile.split('/').pop() || 'Document';
 ---
 
-<div class="pdf-viewer-container">
-  <iframe
-    src={viewerSrc}
-    width="100%"
-    height={height}
-    style="border: 1px solid var(--sl-color-gray-5); border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);"
-    allowfullscreen
-  ></iframe>
+<div class="pdf-viewer-wrapper">
+  <!-- Reader Action Toolbar -->
+  <div class="pdf-toolbar">
+    <div class="pdf-toolbar-info">
+      <span class="pdf-icon">📄</span>
+      <span class="pdf-filename">{fileName}</span>
+    </div>
+    <div class="pdf-toolbar-actions">
+      <a 
+        href={viewerSrc} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="pdf-btn primary-btn"
+        title="Open full reader in a new browser tab with 100% screen space"
+      >
+        <span>⛶ Open in New Tab</span>
+      </a>
+      <a 
+        href={targetFileUrl} 
+        download 
+        class="pdf-btn secondary-btn"
+        title="Download the raw PDF file to your computer"
+      >
+        <span>📥 Download</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Embedded Reader Container -->
+  <div class="pdf-viewer-container">
+    <iframe
+      src={viewerSrc}
+      width="100%"
+      height={height}
+      class="pdf-iframe"
+      allowfullscreen
+    ></iframe>
+  </div>
 </div>
 
 <style>
-  .pdf-viewer-container {
+  .pdf-viewer-wrapper {
     width: 100%;
     margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--sl-color-bg-sidebar);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .pdf-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 1rem;
+    background: var(--sl-color-gray-6);
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pdf-toolbar-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+  }
+
+  .pdf-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .primary-btn {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-text-invert);
+  }
+
+  .primary-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .secondary-btn {
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-text);
+  }
+
+  .secondary-btn:hover {
+    background: var(--sl-color-gray-4);
+    text-decoration: none;
+  }
+
+  .pdf-viewer-container {
+    width: 100%;
+    line-height: 0;
+  }
+
+  .pdf-iframe {
+    border: none;
+    display: block;
+    width: 100%;
+    min-height: 800px;
   }
 </style>

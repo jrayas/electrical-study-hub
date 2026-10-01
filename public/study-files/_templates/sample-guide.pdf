@@ -3,37 +3,61 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<< /Type /Pages /Kids [3 0 R 6 0 R] /Count 2 >>
 endobj
 3 0 obj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
 endobj
 4 0 obj
-<< /Length 120 >>
+<< /Length 210 >>
 stream
 BT
 /F1 22 Tf
 50 720 Td
-(Domain Study Blueprint - Sample Document) Tj
+(Domain Study Blueprint - Sample Multi-page Document) Tj
 0 -36 Td
-/F1 14 Tf
-(Use this template to test new PDF files and annotations) Tj
+/F1 12 Tf
+(Page 1 of 2: Blueprint Testing) Tj
+0 -25 Td
+(This sample document is designed for testing new domains and templates.) Tj
+0 -20 Td
+(Use the Open in New Tab button above to read in full-page mode.) Tj
 ET
 endstream
 endobj
 5 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 7 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+7 0 obj
+<< /Length 180 >>
+stream
+BT
+/F1 18 Tf
+50 720 Td
+(Blueprint Notes & Annotations) Tj
+0 -36 Td
+/F1 12 Tf
+(Page 2 of 2: Testing complete.) Tj
+0 -25 Td
+(Drop your textbook into public/study-files/<domain>/ to replace this.) Tj
+ET
+endstream
+endobj
 xref
-0 6
+0 8
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
 0000000244 00000 n 
-0000000415 00000 n 
+0000000506 00000 n 
+0000000573 00000 n 
+0000000702 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 8 /Root 1 0 R >>
 startxref
-491
+934
 %%EOF
