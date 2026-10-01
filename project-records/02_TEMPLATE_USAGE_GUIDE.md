@@ -20,17 +20,15 @@ Copy `src/content/docs/_templates/study-reader.mdx` into your domain folder:
 src/content/docs/electrical/your-new-topic.mdx
 ```
 
-### Step 3: Update 2 Lines
+### Step 3: Update the Component & Frontmatter
 In `your-new-topic.mdx`:
 1. Change the `title` and `description` in the frontmatter.
-2. Update the `file=` parameter in the `iframe`:
-   ```html
-   <iframe 
-     src="/pdfjs/web/viewer.html?file=/study-files/electrical/your-new-book.pdf#view=FitH"
-     ... >
-   </iframe>
+2. Update the `<PdfViewer />` component tag:
+   ```astro
+   <PdfViewer file="/study-files/electrical/your-new-book.pdf" />
    ```
-3. Add any chapter summaries, LaTeX formulas, or notes below the iframe.
+   *(The `PdfViewer` component automatically handles GitHub Pages subpath routing and local development).*
+3. Add any chapter summaries, LaTeX formulas, or notes below.
 
 ---
 
@@ -54,7 +52,7 @@ Copy-Item -Recurse "src/content/docs/_templates" "src/content/docs/coding"
 Add the new domain to the `sidebar` array in `astro.config.mjs`:
 ```javascript
 {
-  label: 'Coding',
+  label: '💻 Coding',
   autogenerate: { directory: 'coding' },
 }
 ```

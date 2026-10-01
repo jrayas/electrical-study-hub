@@ -4,6 +4,7 @@ description: "Interactive study guide and companion notes for circuit theory and
 ---
 
 import { Tabs, TabItem, Badge } from '@astrojs/starlight/components';
+import PdfViewer from '../../../components/PdfViewer.astro';
 
 <div style="display: flex; gap: 8px; margin-bottom: 1rem; align-items: center;">
   <Badge text="Core Electrical" variant="tip" size="medium" />
@@ -15,13 +16,7 @@ import { Tabs, TabItem, Badge } from '@astrojs/starlight/components';
 
 ## 📖 Document Reader & Annotations
 
-<iframe
-  src="/pdfjs/web/viewer.html?file=/study-files/electrical/circuit-analysis-fundamentals.pdf#view=FitH"
-  width="100%"
-  height="820px"
-  style="border: 1px solid var(--sl-color-gray-5); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  allowfullscreen
-></iframe>
+<PdfViewer file="/study-files/electrical/circuit-analysis-fundamentals.pdf" />
 
 > **Hypothesis Tip**: Open the annotation sidebar (top right) to highlight passages, leave personal study questions, or tag key paragraphs with `#formula` or `#exam`.
 
