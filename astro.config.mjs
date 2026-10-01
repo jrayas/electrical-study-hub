@@ -12,20 +12,15 @@ export default defineConfig({
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/jrayas/electrical-study-hub' }],
 			sidebar: [
 				{
-					label: '⚡ Electrical Engineering',
-					items: [{ autogenerate: { directory: 'electrical' } }],
-				},
-				{
-					label: '📋 Blueprints & Templates',
-					items: [{ autogenerate: { directory: '_templates' } }],
+					label: '⚡ Domains',
+					items: [
+						{ label: '⚡ Electrical Engineering Library', slug: 'electrical' },
+						{ label: '📋 Domain Blueprint Template', slug: '_templates/domain-index' },
+					],
 				},
 				{
 					label: '📚 Guides',
 					items: [{ autogenerate: { directory: 'guides' } }],
-				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
 				},
 			],
 		}),

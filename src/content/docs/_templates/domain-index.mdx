@@ -1,51 +1,23 @@
 ---
-title: "[Domain Name] Knowledge Hub"
-description: "Central syllabus, roadmap, and study library for [Domain Name]."
-template: doc
+title: "[Domain Name] Library"
+description: "Direct full-screen PDF study library for [Domain Name]."
 ---
 
-import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import PdfBookshelf from '../../../components/PdfBookshelf.astro';
 
-Welcome to the **[Domain Name]** study center. Use this dashboard to navigate the curriculum, access foundational texts, and review active study notes.
-
----
-
-## 🗺️ Curriculum & Topic Roadmap
-
-<CardGrid>
-  <Card title="Module 1: Foundations" icon="open-book">
-    Core principles, definitions, and mathematical frameworks.
-    
-    *Status: 🟢 Active Reading*
-  </Card>
-  <Card title="Module 2: Advanced Topics" icon="laptop">
-    In-depth analysis, case studies, and engineering applications.
-    
-    *Status: 🟡 In Progress*
-  </Card>
-  <Card title="Module 3: Practical Design" icon="setting">
-    Real-world implementations, schematics, and industry standards.
-    
-    *Status: ⚪ Queued*
-  </Card>
-</CardGrid>
+Welcome to the **[Domain Name]** study library. Click any document below to open the dedicated full-screen PDF.js + Hypothesis reader.
 
 ---
 
-## 📚 Study Library & Annotated Readers
+## 📚 Document Bookshelf
 
-Select a document below to open the embedded PDF reader with full text-search and Hypothesis annotations:
-
-<CardGrid>
-  <LinkCard
-    title="Sample Study Guide"
-    description="Interactive PDF reader with Hypothesis annotations and LaTeX formulas."
-    href="/_templates/study-reader"
-  />
-</CardGrid>
+{/* Replace '_templates' with your domain folder name under public/study-files/ */}
+<PdfBookshelf domain="_templates" />
 
 ---
 
-## 💡 Quick Tips for This Domain
-- **Annotation**: Use the right-hand Hypothesis sidebar to leave highlights and question tags.
-- **Equations**: Review key equations in the notes section beneath each document.
+## 💡 How to Add Documents to This Domain
+
+1. Drop your `.pdf` file into `public/study-files/[domain-name]/`.
+2. Refresh or push your changes to GitHub.
+3. The bookshelf automatically indexes the new PDF without needing any MDX file!
