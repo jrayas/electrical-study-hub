@@ -13,19 +13,19 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: '⚡ Electrical Engineering',
-					autogenerate: { directory: 'electrical' },
+					items: [{ autogenerate: { directory: 'electrical' } }],
 				},
 				{
 					label: '📋 Blueprints & Templates',
-					autogenerate: { directory: '_templates' },
+					items: [{ autogenerate: { directory: '_templates' } }],
 				},
 				{
 					label: '📚 Guides',
-					autogenerate: { directory: 'guides' },
+					items: [{ autogenerate: { directory: 'guides' } }],
 				},
 				{
 					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					items: [{ autogenerate: { directory: 'reference' } }],
 				},
 			],
 		}),
