@@ -1,0 +1,26 @@
+/* Clean unboxed domain links with underline and hover highlight */
+.domain-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+
+.domain-links a {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--sl-color-text);
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--sl-color-gray-4);
+  transition: all 0.15s ease;
+  width: fit-content;
+}
+
+.domain-links a:hover {
+  color: var(--sl-color-accent-high);
+  text-decoration-color: var(--sl-color-accent);
+  transform: translateX(4px);
+}
